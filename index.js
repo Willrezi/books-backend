@@ -6,26 +6,19 @@ app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost:27017/books-api"
+  process.env.MONGODB_URI || "mongodb://localhost:27017/books-api",
+  {
+    useNewUrlParser: true
+  }
 );
 
 app.get("/", function(req, res) {
-  res.json({ message: "Hello API" });
+  res.json({ message: "Welcome to the Books API" });
 });
 
 //-----MODELS-----//
-
-// BOOK MODEL //
-const bookModel = mongoose.model("Book", {
-  title: String,
-  author: String,
-  editor: String,
-  country: String,
-  genre: String,
-  pages: Number,
-  note: Number,
-  read: String
-});
+const Book = require("./models/Book");
+const User = require("./models/User");
 
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server started");
