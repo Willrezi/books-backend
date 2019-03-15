@@ -27,6 +27,10 @@ const userRoutes = require("./routes/user");
 app.use("/api/book", bookRoutes);
 app.use("/api/user", userRoutes);
 
-app.listen(process.env.PORT || 3000, function() {
+app.all("*", function(req, res) {
+  res.status(404).json({ error: "Not Found" });
+});
+
+app.listen(process.env.PORT || 3100, function() {
   console.log("Server started");
 });
