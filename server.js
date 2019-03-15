@@ -20,6 +20,13 @@ app.get("/", function(req, res) {
 const Book = require("./models/Book");
 const User = require("./models/User");
 
+//-----ROUTES-----//
+const bookRoutes = require("./routes/book");
+const userRoutes = require("./routes/user");
+
+app.use("/api/book", bookRoutes);
+app.use("/api/user", userRoutes);
+
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server started");
 });
