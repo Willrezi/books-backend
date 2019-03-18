@@ -8,13 +8,13 @@ let BookSchema = new mongoose.Schema({
   genre: String,
   pages: Number,
   note: Number,
-  read: String,
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ]
+  read: String
+  //   user: [
+  //     {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "User"
+  //     }
+  //   ]
 });
 
 module.exports = mongoose.model("Book", BookSchema, "books");

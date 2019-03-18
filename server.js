@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -11,6 +13,9 @@ mongoose.connect(
     useNewUrlParser: true
   }
 );
+
+const cors = require("cors");
+app.use("/api", cors());
 
 app.get("/", function(req, res) {
   res.json({ message: "Welcome to the Books API" });
@@ -28,9 +33,17 @@ app.use("/api/book", bookRoutes);
 app.use("/api/user", userRoutes);
 
 app.all("*", function(req, res) {
-  res.status(404).json({ error: "Not Found" });
+  res.status(404).json({ error: "404 Not Found" });
 });
 
-app.listen(process.env.PORT || 3100, function() {
-  console.log("Server started");
+// app.use(function(err, req, res, next) {
+//   if (res.statusCode === 200) res.status(400);
+//   console.error(err);
+
+//   // if (process.env.NODE_ENV === "production") err = "An error occurred";
+//   res.json({ error: err });
+// });
+
+app.listen(process.env.PORT, function() {
+  console.log(`Books API running on port ${process.env.PORT}`);
 });

@@ -8,7 +8,7 @@ const uid2 = require("uid2");
 
 const User = require("../models/User");
 
-router.post("./sign_up", function(req, res) {
+router.post("/sign_up", function(req, res, next) {
   if (validator.isEmail(req.body.email) === false) {
     return res.status(400).json({ message: "Invalid email" });
   }
@@ -30,7 +30,7 @@ router.post("./sign_up", function(req, res) {
   } else {
     newUser.save(function(err, createdUser) {
       if (err) {
-        return res.status(400).json({ error: err.message });
+        return next({ error: err.message });
       } else {
         return res.status(200).json(createdUser);
       }

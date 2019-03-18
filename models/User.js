@@ -11,6 +11,12 @@ let UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  books: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book"
+    }
+  ],
 
   token: String,
   hash: String,
