@@ -38,4 +38,29 @@ router.post("/sign_up", function(req, res, next) {
   }
 });
 
+router.post("/log_in", function(req, res) {
+  User.findOne({
+    $or: [{ email: req.body.email }, { username: req.body.username }]
+  }).exec(function(err, myUser) {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    } else if (myUser === null) {
+      return res.status(400).json({ error: "Email or username don't exist" });
+    } else {
+      const userInfo = { account: {} };
+      const password = req.body.password;
+      const salt = myUser.salt;
+      const verifiedHash = SHA256(password + salt).toString(encBase64);
+      if (verifiedHash === myUser.hash) {
+        userInfo._id = myUser._id;
+        userInfo.token = myUser.token;
+        userInfo.username = myUser.username;
+        return res.status(200).json(userInfo);
+      } else {
+        return res.status(400).json({ error: "Login is not correct" });
+      }
+    }
+  });
+});
+
 module.exports = router;
