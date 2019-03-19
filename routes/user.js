@@ -7,6 +7,7 @@ const encBase64 = require("crypto-js/enc-base64");
 const uid2 = require("uid2");
 
 const User = require("../models/User");
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 router.post("/sign_up", function(req, res, next) {
   if (validator.isEmail(req.body.email) === false) {
@@ -61,6 +62,14 @@ router.post("/log_in", function(req, res) {
       }
     }
   });
+});
+
+router.get("/myBooksList/:id", isAuthenticated, function(req, res) {
+  User.find({ _id: req.params.id })
+    .populate({ path: "books" })
+    .exec((err, myBooksFound) => {
+      res.json(myBooksFound);
+    });
 });
 
 module.exports = router;

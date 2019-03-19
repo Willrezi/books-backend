@@ -19,14 +19,11 @@ router.post("/add", isAuthenticated, function(req, res) {
   };
 
   const book = new Book(obj);
-  console.log("body", obj);
-
   book.save(function(err, addedBook) {
     if (!err) {
       req.user.books.push(book._id);
       req.user.save();
       res.status(200).json(addedBook);
-      console.log(addedBook);
     } else {
       res.status(400).json("Error message", err.message);
     }
