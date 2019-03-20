@@ -36,13 +36,13 @@ app.all("*", function(req, res) {
   res.status(404).json({ error: "404 Not Found" });
 });
 
-// app.use(function(err, req, res, next) {
-//   if (res.statusCode === 200) res.status(400);
-//   console.error(err);
+app.use(function(err, req, res, next) {
+  if (res.statusCode === 200) res.status(400);
+  console.error(err);
 
-//   // if (process.env.NODE_ENV === "production") err = "An error occurred";
-//   res.json({ error: err });
-// });
+  // if (process.env.NODE_ENV === "production") err = "An error occurred";
+  res.json({ error: err });
+});
 
 app.listen(process.env.PORT, function() {
   console.log(`Books API running on port ${process.env.PORT}`);

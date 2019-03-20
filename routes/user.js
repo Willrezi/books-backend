@@ -31,7 +31,7 @@ router.post("/sign_up", function(req, res, next) {
   } else {
     newUser.save(function(err, createdUser) {
       if (err) {
-        return next({ error: err.message });
+        return res.status(400).json({ error: err.message });
       } else {
         return res.status(200).json(createdUser);
       }
