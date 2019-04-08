@@ -66,12 +66,8 @@ router.post("/log_in", function(req, res) {
 
 router.get("/myBooksList/:id", isAuthenticated, function(req, res) {
   User.find({ _id: req.params.id })
-    //   query
-    //     .skip(0)
-    //     .limit(4)
     .populate({ path: "books" })
     .exec((err, myBooksFound) => {
-      //   console.log("error", err);
       res.json(myBooksFound);
     });
 });
