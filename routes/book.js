@@ -30,4 +30,29 @@ router.post("/add", isAuthenticated, function(req, res) {
   });
 });
 
+router.get("/", function(req, res) {
+  const filters = {};
+  const limit = 4;
+  let page;
+  if (req.query.page) {
+    page = req.query.page;
+  } else {
+    page = 1;
+  }
+  Book.find(filters)
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .exec(function(err, books) {
+      if (err) {
+        res.json({ error: err.message });
+      } else {
+        const response = {};
+        response.books = books;
+        response.count = books.length;
+
+        res.json(response);
+      }
+    });
+});
+
 module.exports = router;
